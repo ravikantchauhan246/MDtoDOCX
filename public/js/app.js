@@ -12,7 +12,8 @@ const useAIToggle = document.getElementById('useAIToggle');
 
 // State
 let currentFilename = 'document.md';
-let debounceTimer = null;
+let previewDebounceTimer = null;
+let cacheDebounceTimer = null;
 const STORAGE_KEY = 'md-to-docx-content';
 const AI_TOGGLE_KEY = 'md-to-docx-ai-toggle';
 
@@ -93,8 +94,13 @@ function updateClearButtonState(hasCached) {
 function setupEventListeners() {
     // Live preview on input
     markdownInput.addEventListener('input', () => {
-        debounce(updatePreview, 300);
-        debounce(saveToCache, 1000); // Auto-save after 1 second of no typing
+        // Debounce preview update
+        clearTimeout(previewDebounceTimer);
+        previewDebounceTimer = setTimeout(updatePreview, 300);
+        
+        // Debounce cache save (separate timer)
+        clearTimeout(cacheDebounceTimer);
+        cacheDebounceTimer = setTimeout(saveToCache, 1000);
     });
 
     // File upload
@@ -124,12 +130,6 @@ function setupEventListeners() {
             saveToCache();
         }
     });
-}
-
-// Debounce function
-function debounce(func, delay) {
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(func, delay);
 }
 
 // Update preview
