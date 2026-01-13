@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MD to DOCX Converter</title>
+    <link rel="stylesheet" href="css/github-markdown.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1>📄 MD to DOCX Converter</h1>
+                <p>Convert Markdown to Word documents with proper formatting</p>
+            </div>
+            <div class="header-actions">
+                <label class="toggle-label" title="Use AI for diagram conversion (may be slower due to rate limits)">
+                    <input type="checkbox" id="useAIToggle" checked>
+                    <span class="toggle-text"> AI Diagrams </span>
+                </label>
+                <button id="downloadBtn" class="btn btn-primary" disabled>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/>
+                        <path d="M14 13v1H2v-1h12z"/>
+                    </svg>
+                    Download DOCX
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Left Panel - Editor -->
+            <div class="panel editor-panel">
+                <div class="panel-header">
+                    <h2>Markdown Editor</h2>
+                    <div class="panel-actions">
+                        <label class="btn btn-secondary upload-btn">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 4l4 4h-2.5v5h-3V8H4L8 4z"/>
+                                <path d="M14 2v1H2V2h12z"/>
+                            </svg>
+                            Upload .md
+                            <input type="file" id="fileInput" accept=".md,.markdown,.txt" hidden>
+                        </label>
+                        <button id="clearBtn" class="btn btn-ghost">Clear</button>
+                    </div>
+                </div>
+                <div class="editor-wrapper">
+                    <textarea id="markdownInput" placeholder="Type or paste your Markdown here...
+
+# Example Heading
+
+This is a paragraph with **bold** and *italic* text.
+
+## Code Block
+\`\`\`javascript
+console.log('Hello World');
+\`\`\`
+
+## Table
+| Column 1 | Column 2 |
+|----------|----------|
+| Data 1   | Data 2   |
+"></textarea>
+                </div>
+            </div>
+
+            <!-- Right Panel - Preview -->
+            <div class="panel preview-panel">
+                <div class="panel-header">
+                    <h2>Preview</h2>
+                    <div class="panel-status">
+                        <span id="statusIndicator" class="status-indicator"></span>
+                        <span id="statusText">Ready</span>
+                    </div>
+                </div>
+                <div class="preview-wrapper">
+                    <div id="preview" class="markdown-body">
+                        <p class="placeholder-text">Your rendered Markdown will appear here...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Drop Zone Overlay -->
+        <div id="dropZone" class="drop-zone">
+            <div class="drop-zone-content">
+                <svg width="64" height="64" viewBox="0 0 16 16" fill="currentColor">
+                    <path d="M8 4l4 4h-2.5v5h-3V8H4L8 4z"/>
+                    <path d="M14 2v1H2V2h12z"/>
+                </svg>
+                <p>Drop your Markdown file here</p>
+            </div>
+        </div>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="loading-overlay hidden">
+            <div class="loading-spinner"></div>
+            <p>Converting to DOCX...</p>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

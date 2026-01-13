@@ -1,0 +1,30 @@
+{
+  "name": "md-to-docx-converter",
+  "version": "1.0.0",
+  "description": "Convert Markdown to DOCX with GitHub-style preview and AI-powered diagram conversion",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "markdown",
+    "docx",
+    "converter",
+    "gemini"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "docx": "^9.0.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "highlight.js": "^11.9.0",
+    "markdown-it": "^14.0.0",
+    "markdown-it-anchor": "^8.6.7",
+    "markdown-it-emoji": "^3.0.0",
+    "multer": "^1.4.5-lts.1"
+  }
+}
