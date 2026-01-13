@@ -45,10 +45,13 @@
                 <p>Convert Markdown to Word documents with proper formatting</p>
             </div>
             <div class="header-actions">
-                <label class="toggle-label" title="Use AI for diagram conversion (may be slower due to rate limits)">
-                    <input type="checkbox" id="useAIToggle" checked>
-                    <span class="toggle-text"> AI Diagrams </span>
-                </label>
+                <div class="toggle-container">
+                    <span class="toggle-label-text">AI Diagrams</span>
+                    <label class="toggle-switch" title="Use AI for diagram conversion (may be slower due to rate limits)">
+                        <input type="checkbox" id="useAIToggle" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
                 <button id="downloadBtn" class="btn btn-primary" disabled>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
                         <path d="M8 12l-4-4h2.5V3h3v5H12L8 12z"/>
