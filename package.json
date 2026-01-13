@@ -41,11 +41,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ravikantchauhan246/md-to-docx-converter.git"
+    "url": "https://github.com/ravikantchauhan246/MDtoDOCX.git"
   },
-  "homepage": "https://github.com/ravikantchauhan246/md-to-docx-converter#readme",
+  "homepage": "https://github.com/ravikantchauhan246/MDtoDOCX#readme",
   "bugs": {
-    "url": "https://github.com/ravikantchauhan246/md-to-docx-converter/issues"
+    "url": "https://github.com/ravikantchauhan246/MDtoDOCX/issues"
   },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
