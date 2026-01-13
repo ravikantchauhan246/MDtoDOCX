@@ -1,0 +1,9 @@
+# robots.txt for MD to DOCX Converter
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://yourwebsite.com/sitemap.xml
+
+# Disallow specific paths if needed
+# Disallow: /api/

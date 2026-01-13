@@ -1,7 +1,7 @@
 {
   "name": "md-to-docx-converter",
   "version": "1.0.0",
-  "description": "Convert Markdown to DOCX with GitHub-style preview and AI-powered diagram conversion",
+  "description": "AI-powered Markdown to Word DOCX converter with intelligent diagram parsing, GitHub-style preview, and professional document formatting. Convert MD files to Microsoft Word documents online.",
   "main": "src/server.js",
   "type": "module",
   "scripts": {
@@ -11,11 +11,42 @@
   "keywords": [
     "markdown",
     "docx",
+    "word",
     "converter",
-    "gemini"
+    "markdown-to-docx",
+    "md-to-docx",
+    "document-converter",
+    "markdown-converter",
+    "word-converter",
+    "ai",
+    "gemini",
+    "google-gemini",
+    "diagram-converter",
+    "ascii-diagram",
+    "markdown-parser",
+    "docx-generator",
+    "document-generation",
+    "file-converter",
+    "markdown-preview",
+    "github-markdown",
+    "syntax-highlighting",
+    "code-blocks",
+    "table-converter",
+    "nodejs",
+    "express",
+    "web-app",
+    "online-converter"
   ],
   "author": "",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ravikantchauhan246/md-to-docx-converter.git"
+  },
+  "homepage": "https://github.com/ravikantchauhan246/md-to-docx-converter#readme",
+  "bugs": {
+    "url": "https://github.com/ravikantchauhan246/md-to-docx-converter/issues"
+  },
   "dependencies": {
     "@google/generative-ai": "^0.21.0",
     "docx": "^9.0.0",

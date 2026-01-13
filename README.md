@@ -1,6 +1,10 @@
-# MD to DOCX Converter
+# Markdown to DOCX Converter | AI-Powered MD to Word Document Converter
 
-A powerful web application that converts Markdown files to professionally formatted DOCX (Microsoft Word) documents with AI-powered diagram conversion.
+> **Convert Markdown files to professionally formatted Microsoft Word documents with AI-powered intelligent parsing and diagram conversion.**
+
+A powerful web-based application that converts Markdown (.md) files to DOCX (Microsoft Word) format while preserving all formatting, code blocks, tables, and diagrams. Uses Google Gemini AI for smart document parsing and ASCII diagram conversion.
+
+**Keywords:** markdown to word, md to docx, markdown converter, word document generator, ascii diagram converter, online markdown converter, github markdown to word
 
 ## Features
 
