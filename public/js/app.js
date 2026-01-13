@@ -8,13 +8,18 @@ const dropZone = document.getElementById('dropZone');
 const loadingOverlay = document.getElementById('loadingOverlay');
 const statusIndicator = document.getElementById('statusIndicator');
 const statusText = document.getElementById('statusText');
+const useAIToggle = document.getElementById('useAIToggle');
 
 // State
 let currentFilename = 'document.md';
 let debounceTimer = null;
+const STORAGE_KEY = 'md-to-docx-content';
+const AI_TOGGLE_KEY = 'md-to-docx-ai-toggle';
 
 // Initialize
 document.addEventListener('DOMContentLoaded', () => {
+    loadFromCache();
+    loadAIToggleState();
     setupEventListeners();
     // Trigger initial preview if there's content
     if (markdownInput.value.trim()) {
@@ -22,11 +27,74 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// LocalStorage Functions
+function saveToCache() {
+    const markdown = markdownInput.value;
+    if (markdown.trim()) {
+        localStorage.setItem(STORAGE_KEY, markdown);
+        localStorage.setItem(STORAGE_KEY + '_timestamp', Date.now());
+        updateClearButtonState(true);
+    }
+}
+
+function loadFromCache() {
+    try {
+        const cached = localStorage.getItem(STORAGE_KEY);
+        if (cached) {
+            markdownInput.value = cached;
+            const timestamp = localStorage.getItem(STORAGE_KEY + '_timestamp');
+            if (timestamp) {
+                const date = new Date(parseInt(timestamp));
+                console.log('✅ Loaded cached markdown from:', date.toLocaleString());
+                setStatus('Loaded from cache', false);
+                setTimeout(() => setStatus('Ready', false), 2000);
+            }
+            updateClearButtonState(true);
+        }
+    } catch (error) {
+        console.error('Failed to load from cache:', error);
+    }
+}
+
+function clearCache() {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(STORAGE_KEY + '_timestamp');
+    updateClearButtonState(false);
+}
+
+function loadAIToggleState() {
+    try {
+        const saved = localStorage.getItem(AI_TOGGLE_KEY);
+        if (saved !== null) {
+            useAIToggle.checked = saved === 'true';
+        }
+    } catch (error) {
+        console.error('Failed to load AI toggle state:', error);
+    }
+}
+
+function saveAIToggleState() {
+    try {
+        localStorage.setItem(AI_TOGGLE_KEY, useAIToggle.checked);
+    } catch (error) {
+        console.error('Failed to save AI toggle state:', error);
+    }
+}
+
+function updateClearButtonState(hasCached) {
+    if (hasCached) {
+        clearBtn.title = 'Clear editor and cached data';
+    } else {
+        clearBtn.title = 'Clear editor';
+    }
+}
+
 // Event Listeners
 function setupEventListeners() {
     // Live preview on input
     markdownInput.addEventListener('input', () => {
         debounce(updatePreview, 300);
+        debounce(saveToCache, 1000); // Auto-save after 1 second of no typing
     });
 
     // File upload
@@ -38,6 +106,9 @@ function setupEventListeners() {
     // Clear button
     clearBtn.addEventListener('click', clearEditor);
 
+    // AI Toggle - save state when changed
+    useAIToggle.addEventListener('change', saveAIToggleState);
+
     // Drag and drop
     document.addEventListener('dragenter', showDropZone);
     document.addEventListener('dragleave', hideDropZone);
@@ -46,6 +117,13 @@ function setupEventListeners() {
 
     // Paste handling
     markdownInput.addEventListener('paste', handlePaste);
+
+    // Save on page unload
+    window.addEventListener('beforeunload', () => {
+        if (markdownInput.value.trim()) {
+            saveToCache();
+        }
+    });
 }
 
 // Debounce function
@@ -124,6 +202,7 @@ async function loadFile(file) {
         currentFilename = data.filename;
         downloadBtn.disabled = false;
         setStatus('Ready', false);
+        saveToCache(); // Save uploaded file to cache
     } catch (error) {
         console.error('Upload error:', error);
         setStatus('Error: ' + error.message, 'error');
@@ -197,7 +276,7 @@ async function downloadDocx() {
 
 // Clear editor
 function clearEditor() {
-    if (markdownInput.value.trim() && !confirm('Are you sure you want to clear the editor?')) {
+    if (markdownInput.value.trim() && !confirm('Are you sure you want to clear the editor and cached data?')) {
         return;
     }
     markdownInput.value = '';
@@ -205,6 +284,8 @@ function clearEditor() {
     downloadBtn.disabled = true;
     currentFilename = 'document.md';
     setStatus('Ready', false);
+    clearCache(); // Clear localStorage
+    console.log('Editor and cache cleared');
 }
 
 // Drag and drop handlers
@@ -262,3 +343,50 @@ function setStatus(text, state) {
         statusIndicator.classList.add('error');
     }
 }
+
+// Resizable Panel Divider
+const resizer = document.getElementById('resizer');
+const editorPanel = document.querySelector('.editor-panel');
+const previewPanel = document.querySelector('.preview-panel');
+
+let isResizing = false;
+
+resizer.addEventListener('mousedown', (e) => {
+    isResizing = true;
+    resizer.classList.add('resizing');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+});
+
+document.addEventListener('mousemove', (e) => {
+    if (!isResizing) return;
+    
+    const container = document.querySelector('.main-content');
+    const containerRect = container.getBoundingClientRect();
+    const containerWidth = containerRect.width;
+    const offsetX = e.clientX - containerRect.left;
+    
+    // Calculate percentages (account for resizer width)
+    const resizerWidth = 6;
+    const minWidth = 200;
+    
+    // Clamp the position
+    const clampedX = Math.max(minWidth, Math.min(offsetX, containerWidth - minWidth - resizerWidth));
+    
+    const editorWidth = clampedX;
+    const previewWidth = containerWidth - clampedX - resizerWidth;
+    
+    editorPanel.style.flex = 'none';
+    editorPanel.style.width = editorWidth + 'px';
+    previewPanel.style.flex = 'none';
+    previewPanel.style.width = previewWidth + 'px';
+});
+
+document.addEventListener('mouseup', () => {
+    if (isResizing) {
+        isResizing = false;
+        resizer.classList.remove('resizing');
+        document.body.style.cursor = '';
+        document.body.style.userSelect = '';
+    }
+});

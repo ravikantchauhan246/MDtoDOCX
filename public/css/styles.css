@@ -121,11 +121,13 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 8px 16px;
+    padding: 10px 20px;
     background-color: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     transition: all 0.2s ease;
+    height: 42px;
+    box-sizing: border-box;
 }
 
 .toggle-container:hover {
@@ -134,8 +136,8 @@ body {
 }
 
 .toggle-label-text {
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
     color: var(--text-primary);
     user-select: none;
 }
@@ -143,9 +145,10 @@ body {
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 44px;
-    height: 24px;
+    width: 40px;
+    height: 22px;
     cursor: pointer;
+    flex-shrink: 0;
 }
 
 .toggle-switch input[type="checkbox"] {
@@ -161,7 +164,7 @@ body {
     right: 0;
     bottom: 0;
     background-color: #30363d;
-    border-radius: 24px;
+    border-radius: 22px;
     transition: all 0.3s ease;
     border: 2px solid #30363d;
 }
@@ -169,8 +172,8 @@ body {
 .toggle-slider:before {
     position: absolute;
     content: "";
-    height: 16px;
-    width: 16px;
+    height: 14px;
+    width: 14px;
     left: 2px;
     bottom: 2px;
     background-color: #8b949e;
@@ -184,7 +187,7 @@ body {
 }
 
 .toggle-switch input:checked + .toggle-slider:before {
-    transform: translateX(20px);
+    transform: translateX(18px);
     background-color: white;
 }
 
@@ -241,14 +244,33 @@ body {
 }
 
 .panel {
-    flex: 1;
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    min-width: 200px;
 }
 
 .editor-panel {
-    border-right: 1px solid var(--border-color);
+    flex: 1;
+    border-right: none;
+}
+
+.preview-panel {
+    flex: 1;
+}
+
+/* Resizable Divider */
+.panel-resizer {
+    width: 6px;
+    background-color: var(--border-color);
+    cursor: col-resize;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.panel-resizer:hover,
+.panel-resizer.resizing {
+    background-color: var(--accent-color);
 }
 
 .panel-header {
@@ -268,6 +290,22 @@ body {
 .panel-actions {
     display: flex;
     gap: 8px;
+    align-items: center;
+}
+
+.panel-status {
+    opacity: 0.8;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .panel-status {
